@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Netto/Brutto Rechner Österreich (2026) – Vollprogramm 2.1</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.14);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --accent:#7c5cff;
+      --shadow:0 18px 50px rgba(0,0,0,.45);
+      --radius:18px;
+      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.20), transparent 60%),
+        radial-gradient(900px 450px at 90% 20%, rgba(34,197,94,0.10), transparent 55%),
+        radial-gradient(700px 400px at 50% 95%, rgba(251,191,36,0.08), transparent 55%),
+        var(--bg);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:24px 16px 44px}
+    header{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin:10px 0 18px}
+    h1{margin:0;font-size:clamp(20px,2.4vw,30px);line-height:1.1;letter-spacing:-.02em}
+    .sub{color:var(--muted);font-size:14px;line-height:1.35;max-width:95ch}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--line);
+      border-radius:999px;background:rgba(255,255,255,.04);color:var(--muted);font-size:12px;user-select:none}
+    .dot{width:9px;height:9px;border-radius:99px;background:var(--accent);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
+    .grid{display:grid;grid-template-columns:1.45fr .55fr;gap:14px}
+    @media (max-width:1020px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hd{padding:16px 16px 12px;border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), transparent)}
+    .hd h2{margin:0;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:rgba(255,255,255,.82)}
+    .bd{padding:16px}
+    .row{display:grid;gap:10px;margin-bottom:14px}
+    label{font-size:13px;color:var(--muted)}
+    input[type="text"], input[type="number"], select{
+      width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(10,16,30,.55);color:var(--text);outline:none;font-size:16px
+    }
+    input::placeholder{color:rgba(255,255,255,.40)}
+    input:focus, select:focus{border-color:rgba(124,92,255,.55);box-shadow:0 0 0 4px rgba(124,92,255,.16)}
+    .seg{display:grid;grid-template-columns:1fr 1fr;padding:6px;border:1px solid var(--line);
+      border-radius:16px;background:rgba(255,255,255,.03);gap:6px}
+    .seg button{
+      border:1px solid transparent;border-radius:12px;padding:12px 10px;font-size:14px;
+      color:var(--muted);background:transparent;cursor:pointer;transition:140ms ease
+    }
+    .seg button.active{background:rgba(124,92,255,.20);border-color:rgba(124,92,255,.35);color:var(--text)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+    .btn{padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.05);
+      color:var(--text);cursor:pointer;font-size:14px;transition:140ms ease}
+    .btn.primary{background:rgba(124,92,255,.22);border-color:rgba(124,92,255,.35)}
+    .btn:hover{background:rgba(255,255,255,.08)}
+    .btn.primary:hover{background:rgba(124,92,255,.28)}
+    .kpi{padding:16px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.04)}
+    .kpi .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+    .kpi .value{margin-top:6px;font-size:clamp(26px,4.2vw,44px);font-weight:700;letter-spacing:-.02em}
+    .kpi .hint{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.4}
+    .miniGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    @media (max-width:420px){.miniGrid{grid-template-columns:1fr}}
+    .mini{padding:12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+    .mini .t{font-size:12px;color:var(--muted)}
+    .mini .n{margin-top:6px;font-family:var(--mono);font-size:14px;color:rgba(255,255,255,.88);word-break:break-word}
+    .note{margin-top:12px;padding:12px;border-radius:14px;border:1px dashed rgba(255,255,255,.22);
+      color:var(--muted);font-size:12px;line-height:1.45;background:rgba(255,255,255,.02)}
+    .checkbox{display:flex;gap:10px;align-items:flex-start}
+    .checkbox input{margin-top:3px;transform:scale(1.05)}
+    .mono{font-family:var(--mono)}
+    .divider{height:1px;background:rgba(255,255,255,.12);margin:12px 0}
+    .twoCols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width:760px){.twoCols{grid-template-columns:1fr}}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;font-size:13px}
+    th{color:rgba(255,255,255,.78);font-weight:600}
+    td{color:rgba(255,255,255,.88)}
+    .right{text-align:right}
+    .tag{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid rgba(255,255,255,.14);
+      border-radius:999px;background:rgba(255,255,255,.03);font-size:12px;color:rgba(255,255,255,.78)}
+    details{border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.02)}
+    summary{cursor:pointer;user-select:none;padding:12px 14px;color:rgba(255,255,255,.85);font-size:14px}
+    details .inner{padding:14px;border-top:1px solid rgba(255,255,255,.12)}
+    footer{margin-top:16px;color:rgba(255,255,255,.55);font-size:12px;line-height:1.45;text-align:center}
+    .muted{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Netto/Brutto Rechner Österreich</h1>
+      <div class="sub">
+        Vollprogramm 2.1 (AT 2026): Brutto→Netto oder Netto→Brutto, 12/14, Bonus (SZ oder laufend), Pendler, Absetzbeträge,
+        Monatsansicht + Mini-Lohnzettel.
+      </div>
+    </div>
+    <div class="pill"><span class="dot"></span><span>1 Datei • ohne Libraries • mobil</span></div>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <div class="hd"><h2>Eingaben</h2></div>
+      <div class="bd">
+
+        <div class="row">
+          <label>Eingabe-Modus</label>
+          <div class="seg" role="group" aria-label="Brutto oder Netto eingeben">
+            <button id="btnInGross" class="active" type="button" aria-pressed="true">Brutto eingeben</button>
+            <button id="btnInNet" type="button" aria-pressed="false">Netto eingeben</button>
+          </div>
+          <div class="note" id="inputModeHint">
+            Brutto → Netto: Monatsbrutto eingeben. Netto → Brutto: Ziel-Netto (Ø/Monat) eingeben, Rechner schätzt das passende Brutto.
+          </div>
+        </div>
+
+        <div class="twoCols">
+          <div class="row" style="margin-bottom:0" id="grossRow">
+            <label for="gross">Bruttogehalt (monatlich)</label>
+            <input id="gross" type="text" inputmode="decimal" placeholder="z.B. 3.200,00" autocomplete="off" />
+          </div>
+          <div class="row" style="margin-bottom:0; display:none" id="netRow">
+            <label for="netTarget">Netto Ziel (Ø pro Monat)</label>
+            <input id="netTarget" type="text" inputmode="decimal" placeholder="z.B. 2.400,00" autocomplete="off" />
+          </div>
+
+          <div class="row" style="margin-bottom:0">
+            <label>Gehälter pro Jahr</label>
+            <div class="seg" role="group" aria-label="12 oder 14 Gehälter">
+              <button id="btn12" class="active" type="button" aria-pressed="true">12</button>
+              <button id="btn14" type="button" aria-pressed="false">14</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="twoCols" style="margin-top:10px">
+          <div class="row" style="margin-bottom:0">
+            <label for="m13">Monat 13. Gehalt</label>
+            <select id="m13"></select>
+          </div>
+          <div class="row" style="margin-bottom:0">
+            <label for="m14">Monat 14. Gehalt</label>
+            <select id="m14"></select>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <label>Bonus / Prämie (optional)</label>
+          <div class="twoCols">
+            <div>
+              <label for="bonusGross">Bonus brutto (einmalig/Jahr)</label>
+              <input id="bonusGross" type="text" inputmode="decimal" placeholder="z.B. 5.000,00" autocomplete="off" />
+            </div>
+            <div>
+              <label for="bonusMonth">Auszahlungsmonat</label>
+              <select id="bonusMonth"></select>
+            </div>
+          </div>
+          <div class="twoCols" style="margin-top:10px">
+            <div>
+              <label for="bonusMode">Besteuerung</label>
+              <select id="bonusMode">
+                <option value="sz">Als sonstiger Bezug (§67 / Jahressechstel)</option>
+                <option value="laufend">Als laufender Bezug (Tarif)</option>
+              </select>
+            </div>
+            <div class="checkbox" style="align-items:center;margin-top:22px">
+              <input id="viennaWF" type="checkbox" />
+              <div><b>Wien: Wohnbauförderungsbeitrag DN 0,75%</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <label>Pendler (optional)</label>
+          <div class="twoCols">
+            <div>
+              <label for="pendelKm">Einfache Wegstrecke (km)</label>
+              <input id="pendelKm" type="number" min="0" step="0.1" value="0" />
+            </div>
+            <div>
+              <label for="pendelType">Öffis zumutbar?</label>
+              <select id="pendelType">
+                <option value="none">Kein Pendlerpauschale</option>
+                <option value="klein">Ja → kleines Pendlerpauschale</option>
+                <option value="gross">Nein → großes Pendlerpauschale</option>
+              </select>
+            </div>
+          </div>
+          <div class="twoCols" style="margin-top:10px">
+            <div>
+              <label for="pendelDays">Fahrten pro Monat</label>
+              <select id="pendelDays">
+                <option value="0">0–3 Tage/Monat (kein Anspruch)</option>
+                <option value="1">4–7 Tage/Monat (1/3)</option>
+                <option value="2">8–10 Tage/Monat (2/3)</option>
+                <option value="3" selected>≥ 11 Tage/Monat (voll)</option>
+              </select>
+            </div>
+            <div class="note" style="margin:0">
+              Pendlereuro: <span class="mono">6 € × km/Jahr</span>, aliquot wie Pendlerpauschale.
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <label>Familie & Absetzbeträge (optional)</label>
+          <div class="twoCols">
+            <div>
+              <label for="kidsU18">Kinder &lt; 18 (Familienbonus)</label>
+              <input id="kidsU18" type="number" min="0" step="1" value="0" />
+            </div>
+            <div>
+              <label for="kidsA18">Kinder ≥ 18 (Familienbonus)</label>
+              <input id="kidsA18" type="number" min="0" step="1" value="0" />
+            </div>
+          </div>
+
+          <div class="twoCols" style="margin-top:10px">
+            <div>
+              <label for="avabMode">AVAB / AEAB</label>
+              <select id="avabMode">
+                <option value="none">Keiner</option>
+                <option value="avab">Alleinverdienerabsetzbetrag (AVAB)</option>
+                <option value="aeab">Alleinerzieherabsetzbetrag (AEAB)</option>
+              </select>
+            </div>
+            <div>
+              <label for="unterhaltKids">Unterhaltsabsetzbetrag: alimentierte Kinder</label>
+              <input id="unterhaltKids" type="number" min="0" step="1" value="0" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="mode">Ausgabe</label>
+          <select id="mode">
+            <option value="monthlyView">Monatsansicht (Netto je Monat + Lohnzettel)</option>
+            <option value="monthlyAvg">Netto pro Monat (Ø über 12 Monate)</option>
+            <option value="yearly">Netto pro Jahr</option>
+            <option value="details">Details (Debug)</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="calc" type="button">Berechnen</button>
+          <button class="btn" id="reset" type="button">Zurücksetzen</button>
+        </div>
+
+        <details style="margin-top:12px">
+          <summary>Hinweise</summary>
+          <div class="inner muted" style="font-size:12px;line-height:1.45">
+            <ul style="margin:0;padding-left:18px">
+              <li>Netto→Brutto nutzt Solver (sehr gute Schätzung).</li>
+              <li>Monatsansicht verteilt Credits gleichmäßig auf Monate (UX-Näherung; Lohnverrechnung kann abweichen).</li>
+              <li>SZ-SV wird proportional mit SZ-Cap verteilt (Näherung).</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <section class="card" aria-live="polite">
+      <div class="hd"><h2>Ergebnis</h2></div>
+      <div class="bd">
+        <div class="kpi">
+          <div class="label" id="kpiLabel">Netto</div>
+          <div class="value" id="netMain">—</div>
+          <div class="hint" id="kpiHint">Eingeben → „Berechnen“.</div>
+        </div>
+
+        <div class="miniGrid">
+          <div class="mini"><div class="t">Brutto/Jahr</div><div class="n" id="grossYear">—</div></div>
+          <div class="mini"><div class="t">Netto/Jahr</div><div class="n" id="netYear">—</div></div>
+          <div class="mini"><div class="t">SV DN/Jahr</div><div class="n" id="svYear">—</div></div>
+          <div class="mini"><div class="t">Steuer/Jahr</div><div class="n" id="taxYear">—</div></div>
+        </div>
+
+        <div class="note" id="solverBox" style="display:none"></div>
+        <div class="note" id="detailBox" style="display:none"></div>
+
+        <div class="note" id="monthBox" style="display:none">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
+            <span class="tag">Monatsübersicht</span>
+            <span class="muted" style="font-size:12px">Netto je Monat inkl. 13./14./Bonus</span>
+          </div>
+          <div style="overflow:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Monat</th>
+                  <th class="right">Brutto</th>
+                  <th class="right">SV</th>
+                  <th class="right">Steuer</th>
+                  <th class="right">Netto</th>
+                </tr>
+              </thead>
+              <tbody id="monthTable"></tbody>
+            </table>
+          </div>
+
+          <div class="divider"></div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:4px 0 10px">
+            <span class="tag">Mini-Lohnzettel</span>
+            <span class="muted" style="font-size:12px">Aufklappen für Aufschlüsselung</span>
+          </div>
+          <div id="payslipList" style="display:grid;gap:10px"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    Tipp: Wenn bei dir gar nichts passiert, öffne die Browser-Konsole (F12) und schau nach Fehlermeldungen.
+  </footer>
+</div>
+
+<script>
+  // =========================
+  // Parameter (best-effort, Näherung)
+  // =========================
+  const TAX_2026 = [
+    { upTo: 13539,  rate: 0.00 },
+    { upTo: 21992,  rate: 0.20 },
+    { upTo: 36458,  rate: 0.30 },
+    { upTo: 70365,  rate: 0.40 },
+    { upTo: 104859, rate: 0.48 },
+    { upTo: 1000000,rate: 0.50 },
+    { upTo: Infinity,rate: 0.55 }
+  ];
+
+  const VAB_BASE_2026 = 496;
+  const VAB_ERHOEHT_2026 = 853;
+  const VAB_ERH_PH_IN = 15069;
+  const VAB_ERH_PH_OUT = 16056;
+
+  const VAB_ZUSCHLAG_2026 = 804;
+  const VAB_ZUS_PH_IN = 19761;
+  const VAB_ZUS_PH_OUT = 30259;
+
+  const FBP_U18 = 2000;
+  const FBP_A18 = 700;
+
+  const AVAB_1 = 612;
+  const AVAB_2 = 828;
+  const AVAB_3 = 1101;
+  const AVAB_PLUS = 273;
+
+  const UH_1_M = 38;
+  const UH_2_M = 56;
+  const UH_3P_M = 75;
+
+  const HBG_MONTH   = 6930;
+  const HBG_SZ_YEAR = 13860;
+
+  const RATE_PV_DN = 0.1025;
+  const RATE_KV_DN = 0.0387;
+  const RATE_AV_STD = 0.0295;
+  const RATE_AK = 0.0050;
+
+  const AV_THRESHOLDS = [
+    { upTo: 2225,    rate: 0.00 },
+    { upTo: 2427,    rate: 0.01 },
+    { upTo: 2630,    rate: 0.02 },
+    { upTo: Infinity,rate: RATE_AV_STD }
+  ];
+
+  const RATE_WF_VIENNA_DN = 0.0075;
+
+  const PP_KLEIN = [
+    { minKm: 20, maxKm: 40, monthly: 58 },
+    { minKm: 40, maxKm: 60, monthly: 113 },
+    { minKm: 60, maxKm: Infinity, monthly: 168 }
+  ];
+  const PP_GROSS = [
+    { minKm: 2,  maxKm: 20, monthly: 31 },
+    { minKm: 20, maxKm: 40, monthly: 123 },
+    { minKm: 40, maxKm: 60, monthly: 214 },
+    { minKm: 60, maxKm: Infinity, monthly: 306 }
+  ];
+  const PENDEL_EURO_PER_KM = 6;
+
+  const SZ_FIXED = [
+    { amount: 620,   rate: 0.00 },
+    { amount: 24380, rate: 0.06 },
+    { amount: 25000, rate: 0.27 },
+    { amount: 33333, rate: 0.3575 }
+  ];
+  const SZ_FREIGRENZE_J6 = 2615;
+
+  // =========================
+  // Helpers
+  // =========================
+  function parseEuroNumber(str){
+    if (!str) return NaN;
+    str = String(str).trim().replace(/\s+/g, "");
+    if (!str) return NaN;
+
+    const hasComma = str.includes(",");
+    const hasDot = str.includes(".");
+    if (hasComma && hasDot) {
+      const lastComma = str.lastIndexOf(",");
+      const lastDot = str.lastIndexOf(".");
+      const decIsComma = lastComma > lastDot;
+      if (decIsComma) str = str.replace(/\./g, "").replace(",", ".");
+      else str = str.replace(/,/g, "");
+    } else if (hasComma && !hasDot) {
+      str = str.replace(",", ".");
+    } else {
+      const m = str.match(/^(\d+)\.(\d{3})$/);
+      if (m) str = m[1] + m[2];
+    }
+    const n = Number(str);
+    return Number.isFinite(n) ? n : NaN;
+  }
+
+  function euro(n){
+    if (!Number.isFinite(n)) return "—";
+    return new Intl.NumberFormat("de-AT", { style:"currency", currency:"EUR", maximumFractionDigits:2 }).format(n);
+  }
+
+  function clamp0(n){ return Math.max(0, n); }
+  function lerp(a,b,t){ return a + (b-a)*t; }
+  function invLerp(a,b,v){ return (v-a)/(b-a); }
+
+  function monthName(i){
+    const m = ["Jän","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
+    return m[i] || ("M"+(i+1));
+  }
+
+  function tariffTaxAnnual(taxable){
+    taxable = clamp0(taxable);
+    let tax = 0;
+    let prev = 0;
+    for (const t of TAX_2026){
+      const cap = t.upTo;
+      const chunk = Math.max(0, Math.min(taxable, cap) - prev);
+      tax += chunk * t.rate;
+      prev = cap;
+      if (taxable <= cap) break;
+    }
+    return tax;
+  }
+
+  function avRateForMonthlyGross(grossMonthly){
+    for (const t of AV_THRESHOLDS){
+      if (grossMonthly <= t.upTo) return t.rate;
+    }
+    return RATE_AV_STD;
+  }
+
+  function svOnMonthlyBase(baseMonthly, grossMonthlyForAV, applyAK, applyWF, wfRate){
+    const avRate = avRateForMonthlyGross(grossMonthlyForAV);
+    const pv = baseMonthly * RATE_PV_DN;
+    const kv = baseMonthly * RATE_KV_DN;
+    const av = baseMonthly * avRate;
+    const ak = applyAK ? baseMonthly * RATE_AK : 0;
+    const wf = applyWF ? baseMonthly * wfRate : 0;
+    return { pv, kv, av, ak, wf, total: pv + kv + av + ak + wf, avRate };
+  }
+
+  function fixedTaxSZ(eligibleBase){
+    eligibleBase = clamp0(eligibleBase);
+    let rest = eligibleBase;
+    let tax = 0;
+    for (const b of SZ_FIXED){
+      if (rest <= 0) break;
+      const take = Math.min(rest, b.amount);
+      tax += take * b.rate;
+      rest -= take;
+    }
+    if (rest > 0) tax += rest * 0.55;
+    return tax;
+  }
+
+  function creditVAB2026(incomeForPhase){
+    const inc = clamp0(incomeForPhase);
+
+    let vab = VAB_BASE_2026;
+    if (inc <= VAB_ERH_PH_IN) vab = VAB_ERHOEHT_2026;
+    else if (inc < VAB_ERH_PH_OUT){
+      const t = invLerp(VAB_ERH_PH_IN, VAB_ERH_PH_OUT, inc);
+      vab = lerp(VAB_ERHOEHT_2026, VAB_BASE_2026, t);
+    }
+
+    let zus = 0;
+    if (inc <= VAB_ZUS_PH_IN) zus = VAB_ZUSCHLAG_2026;
+    else if (inc < VAB_ZUS_PH_OUT){
+      const t = invLerp(VAB_ZUS_PH_IN, VAB_ZUS_PH_OUT, inc);
+      zus = lerp(VAB_ZUSCHLAG_2026, 0, t);
+    }
+
+    return vab + zus;
+  }
+
+  function pendlerPauschaleMonthly(km, type){
+    if (type === "klein"){
+      for (const b of PP_KLEIN){
+        if (km >= b.minKm && km < b.maxKm) return b.monthly;
+      }
+      return 0;
+    }
+    if (type === "gross"){
+      for (const b of PP_GROSS){
+        if (km >= b.minKm && km < b.maxKm) return b.monthly;
+      }
+      return 0;
+    }
+    return 0;
+  }
+
+  function pendlerAliquotFactor(daysCode){
+    if (daysCode === 1) return 1/3;
+    if (daysCode === 2) return 2/3;
+    if (daysCode === 3) return 1;
+    return 0;
+  }
+
+  function avabAeabCreditAnnual(mode, kidsTotal){
+    if (mode !== "avab" && mode !== "aeab") return 0;
+    const k = Math.max(0, Math.floor(kidsTotal || 0));
+    if (k <= 0) return 0;
+    if (k === 1) return AVAB_1;
+    if (k === 2) return AVAB_2;
+    return AVAB_3 + (k - 3) * AVAB_PLUS;
+  }
+
+  function unterhaltCreditAnnual(alimentKids){
+    const k = Math.max(0, Math.floor(alimentKids || 0));
+    if (k <= 0) return 0;
+    let monthly = 0;
+    for (let i=1;i<=k;i++){
+      if (i === 1) monthly += UH_1_M;
+      else if (i === 2) monthly += UH_2_M;
+      else monthly += UH_3P_M;
+    }
+    return monthly * 12;
+  }
+
+  // =========================
+  // Core calc
+  // =========================
+  function calculateFull(grossMonthly, salariesPerYear, opts){
+    const is14 = salariesPerYear === 14;
+
+    const m13 = Number(opts.m13 ?? 5);
+    const m14 = Number(opts.m14 ?? 10);
+
+    const bonusGross = clamp0(opts.bonusGross || 0);
+    const bonusMonth = Number(opts.bonusMonth ?? 11);
+    const bonusMode = (opts.bonusMode === "laufend") ? "laufend" : "sz";
+
+    // Monthly gross buckets
+    const months = Array.from({length:12}, (_,i)=>({
+      i,
+      grossNormal: grossMonthly,
+      grossSZ: 0,
+      grossBonusLaufend: 0
+    }));
+
+    if (is14){
+      months[m13].grossSZ += grossMonthly;
+      months[m14].grossSZ += grossMonthly;
+    }
+    if (bonusGross > 0){
+      if (bonusMode === "sz") months[bonusMonth].grossSZ += bonusGross;
+      else months[bonusMonth].grossBonusLaufend += bonusGross;
+    }
+
+    // Pendler
+    const km = clamp0(Number(opts.pendelKm || 0));
+    const pendelType = opts.pendelType || "none";
+    const daysCode = Number(opts.pendelDays || 0);
+    const aliquot = pendlerAliquotFactor(daysCode);
+
+    const ppMonthlyFull = pendlerPauschaleMonthly(km, pendelType);
+    const ppMonthly = ppMonthlyFull * aliquot;
+    const ppAnnual = ppMonthly * 12;
+
+    const pendlereuroAnnual = (pendelType !== "none" && aliquot > 0 && km > 0)
+      ? (km * PENDEL_EURO_PER_KM * aliquot)
+      : 0;
+
+    // SV baseline (normal)
+    const wfRate = opts.viennaWF ? RATE_WF_VIENNA_DN : 0;
+    const baseNormalMonth = Math.min(grossMonthly, HBG_MONTH);
+    const svNormalBase = svOnMonthlyBase(baseNormalMonth, grossMonthly, true, opts.viennaWF, wfRate);
+    const avRate = svNormalBase.avRate;
+
+    // SZ SV cap distribution (proportional)
+    const totalSZGross = months.reduce((s,m)=>s + m.grossSZ, 0);
+    const baseSZYear = Math.min(totalSZGross, HBG_SZ_YEAR);
+    const szBaseAlloc = months.map(m=>{
+      if (totalSZGross <= 0 || m.grossSZ <= 0) return 0;
+      return baseSZYear * (m.grossSZ / totalSZGross);
+    });
+
+    // SV month detail
+    const sv = months.map((m,idx)=>{
+      // Normal SV in this month (baseline)
+      const svNormal = svNormalBase;
+
+      // Extra SV if laufender Bonus (cap monthly)
+      const grossWithBonus = grossMonthly + m.grossBonusLaufend;
+      const baseWithBonus = Math.min(grossWithBonus, HBG_MONTH);
+      const svNormalWithBonus = svOnMonthlyBase(baseWithBonus, grossWithBonus, true, opts.viennaWF, wfRate);
+      const svBonusExtra = {
+        pv: Math.max(0, svNormalWithBonus.pv - svNormal.pv),
+        kv: Math.max(0, svNormalWithBonus.kv - svNormal.kv),
+        av: Math.max(0, svNormalWithBonus.av - svNormal.av),
+        ak: Math.max(0, svNormalWithBonus.ak - svNormal.ak),
+        wf: Math.max(0, svNormalWithBonus.wf - svNormal.wf),
+        total: Math.max(0, svNormalWithBonus.total - svNormal.total),
+        avRate
+      };
+
+      // SZ SV on allocated base (PV/KV/AV only)
+      const szBase = szBaseAlloc[idx];
+      const svSZ = (szBase > 0)
+        ? { pv:szBase*RATE_PV_DN, kv:szBase*RATE_KV_DN, av:szBase*avRate, ak:0, wf:0, total:szBase*(RATE_PV_DN+RATE_KV_DN+avRate), avRate }
+        : { pv:0,kv:0,av:0,ak:0,wf:0,total:0,avRate };
+
+      const total = {
+        pv: svNormal.pv + svBonusExtra.pv + svSZ.pv,
+        kv: svNormal.kv + svBonusExtra.kv + svSZ.kv,
+        av: svNormal.av + svBonusExtra.av + svSZ.av,
+        ak: svNormal.ak + svBonusExtra.ak,
+        wf: svNormal.wf + svBonusExtra.wf,
+        total: svNormal.total + svBonusExtra.total + svSZ.total,
+        avRate
+      };
+
+      return { svNormal, svBonusExtra, svSZ, total };
+    });
+
+    // Taxable months for tariff
+    const taxableMonths = months.map((m,i)=>{
+      const grossTarif = m.grossNormal + m.grossBonusLaufend;
+      const svTarif = sv[i].svNormal.total + sv[i].svBonusExtra.total;
+      return clamp0(grossTarif - svTarif - ppMonthly);
+    });
+    const taxableYearTarif = taxableMonths.reduce((s,x)=>s+x,0);
+
+    // Tariff tax annual + VAB credits
+    const taxTariffAnnualRaw = tariffTaxAnnual(taxableYearTarif);
+    const vabTotal = creditVAB2026(taxableYearTarif);
+    const taxTariffAnnual = clamp0(taxTariffAnnualRaw - vabTotal);
+
+    // SZ tax annual
+    const szSvYear = sv.reduce((s,x)=>s + x.svSZ.total, 0);
+    const szTaxBase = clamp0(totalSZGross - szSvYear);
+
+    let taxSZAnnual = 0;
+    if (totalSZGross > 0){
+      const grossNormalYear = grossMonthly*12 + (bonusMode === "laufend" ? bonusGross : 0);
+      const svNormalYear = sv.reduce((s,x)=>s + x.svNormal.total + x.svBonusExtra.total, 0);
+
+      const jahressechstel = grossNormalYear / 6;
+      const j6Net = clamp0(jahressechstel - (svNormalYear / 6));
+
+      if (jahressechstel > SZ_FREIGRENZE_J6){
+        const eligible = Math.min(szTaxBase, j6Net);
+        const remainder = clamp0(szTaxBase - eligible);
+        const fixed = fixedTaxSZ(eligible);
+        const marginal = clamp0(tariffTaxAnnual(taxableYearTarif + remainder) - tariffTaxAnnual(taxableYearTarif));
+        taxSZAnnual = fixed + marginal;
+      }
+    }
+
+    // Credits annual
+    const kidsU18 = clamp0(opts.kidsU18 || 0);
+    const kidsA18 = clamp0(opts.kidsA18 || 0);
+    const kidsTotal = kidsU18 + kidsA18;
+
+    const familyBonus = kidsU18 * FBP_U18 + kidsA18 * FBP_A18;
+    const avabAeab = avabAeabCreditAnnual(opts.avabMode || "none", kidsTotal);
+    const unterhalt = unterhaltCreditAnnual(opts.unterhaltKids || 0);
+
+    const creditsAnnual = familyBonus + pendlereuroAnnual + avabAeab + unterhalt;
+
+    const taxBeforeCredits = taxTariffAnnual + taxSZAnnual;
+    const taxAnnual = clamp0(taxBeforeCredits - creditsAnnual);
+
+    // Allocate tariff tax monthly via cumulative method
+    let tariffMonthly = Array(12).fill(0);
+    {
+      let cum = 0;
+      let prev = 0;
+      for (let i=0;i<12;i++){
+        cum += taxableMonths[i];
+        const t = tariffTaxAnnual(cum);
+        tariffMonthly[i] = Math.max(0, t - prev);
+        prev = t;
+      }
+      const vabMonthly = vabTotal / 12;
+      tariffMonthly = tariffMonthly.map(x => Math.max(0, x - vabMonthly));
+    }
+
+    // Allocate SZ tax monthly by SZ base portion
+    const szBaseMonths = months.map((m,i)=> m.grossSZ>0 ? clamp0(m.grossSZ - sv[i].svSZ.total) : 0);
+    const szBaseSum = szBaseMonths.reduce((s,x)=>s+x,0);
+    let szMonthly = Array(12).fill(0);
+    if (taxSZAnnual>0 && szBaseSum>0){
+      szMonthly = szBaseMonths.map(x => taxSZAnnual * (x/szBaseSum));
+    }
+
+    // Spread credits monthly (UX)
+    const creditsMonthlyTotal = creditsAnnual/12;
+    const creditsMonthly = {
+      familyBonus: familyBonus/12,
+      pendlereuro: pendlereuroAnnual/12,
+      avabAeab: avabAeab/12,
+      unterhalt: unterhalt/12,
+      total: creditsMonthlyTotal
+    };
+
+    const rows = months.map((m,i)=>{
+      const gross = m.grossNormal + m.grossBonusLaufend + m.grossSZ;
+      const svTot = sv[i].total.total;
+      const taxRaw = tariffMonthly[i] + szMonthly[i];
+      const tax = Math.max(0, taxRaw - creditsMonthlyTotal);
+      const net = gross - svTot - tax;
+
+      return {
+        i,
+        gross,
+        net,
+        svTot,
+        taxTot: tax,
+        parts: {
+          gross: { normal:m.grossNormal, bonusLaufend:m.grossBonusLaufend, sz:m.grossSZ },
+          sv: sv[i],
+          tax: { tarif: tariffMonthly[i], sz: szMonthly[i], credits: creditsMonthly, after: tax }
+        },
+        pendler: { ppMonthly }
+      };
+    });
+
+    // Reconcile tax rounding drift
+    const sumTax = rows.reduce((s,r)=>s+r.taxTot,0);
+    const diff = sumTax - taxAnnual;
+    if (Math.abs(diff) > 0.02){
+      const last = rows[11];
+      last.taxTot = Math.max(0, last.taxTot - diff);
+      last.net = last.gross - last.svTot - last.taxTot;
+      last.parts.tax.after = last.taxTot;
+    }
+
+    const grossYear = rows.reduce((s,r)=>s+r.gross,0);
+    const netYear = rows.reduce((s,r)=>s+r.net,0);
+    const svYear = rows.reduce((s,r)=>s+r.svTot,0);
+    const taxYear = rows.reduce((s,r)=>s+r.taxTot,0);
+
+    return {
+      rows,
+      grossYear, netYear, svYear, taxYear,
+      netMonthlyAvg: netYear/12,
+      debug: { taxableYearTarif, ppAnnual, pendlereuroAnnual, vabTotal, taxTariffAnnualRaw, taxTariffAnnual, taxSZAnnual, creditsAnnual, totalSZGross, baseSZYear }
+    };
+  }
+
+  function solveGrossForTargetNet(targetNetMonthly, salariesPerYear, opts){
+    const target = clamp0(targetNetMonthly);
+
+    let lo = 0;
+    let hi = 25000;
+
+    const hiRes = calculateFull(hi, salariesPerYear, opts);
+    if (hiRes.netMonthlyAvg < target - 0.5){
+      return { gross: hi, achieved: hiRes.netMonthlyAvg, ok:false };
+    }
+
+    for (let iter=0; iter<45; iter++){
+      const mid = (lo+hi)/2;
+      const res = calculateFull(mid, salariesPerYear, opts);
+      const v = res.netMonthlyAvg;
+
+      if (Math.abs(v - target) < 0.25){
+        return { gross: mid, achieved: v, ok:true };
+      }
+      if (v < target) lo = mid;
+      else hi = mid;
+    }
+    const mid = (lo+hi)/2;
+    const res = calculateFull(mid, salariesPerYear, opts);
+    return { gross: mid, achieved: res.netMonthlyAvg, ok:true };
+  }
+
+  // =========================
+  // UI wiring
+  // =========================
+  const btnInGross = document.getElementById("btnInGross");
+  const btnInNet = document.getElementById("btnInNet");
+  const grossRow = document.getElementById("grossRow");
+  const netRow = document.getElementById("netRow");
+  const inputModeHint = document.getElementById("inputModeHint");
+
+  const grossEl = document.getElementById("gross");
+  const netTargetEl = document.getElementById("netTarget");
+
+  const btn12 = document.getElementById("btn12");
+  const btn14 = document.getElementById("btn14");
+  const m13El = document.getElementById("m13");
+  const m14El = document.getElementById("m14");
+
+  const bonusGrossEl = document.getElementById("bonusGross");
+  const bonusMonthEl = document.getElementById("bonusMonth");
+  const bonusModeEl = document.getElementById("bonusMode");
+  const viennaWFEl = document.getElementById("viennaWF");
+
+  const pendelKmEl = document.getElementById("pendelKm");
+  const pendelTypeEl = document.getElementById("pendelType");
+  const pendelDaysEl = document.getElementById("pendelDays");
+
+  const kidsU18El = document.getElementById("kidsU18");
+  const kidsA18El = document.getElementById("kidsA18");
+  const avabModeEl = document.getElementById("avabMode");
+  const unterhaltKidsEl = document.getElementById("unterhaltKids");
+
+  const modeEl = document.getElementById("mode");
+  const calcBtn = document.getElementById("calc");
+  const resetBtn = document.getElementById("reset");
+
+  const kpiLabel = document.getElementById("kpiLabel");
+  const netMain = document.getElementById("netMain");
+  const kpiHint = document.getElementById("kpiHint");
+  const grossYearEl = document.getElementById("grossYear");
+  const netYearEl = document.getElementById("netYear");
+  const svYearEl = document.getElementById("svYear");
+  const taxYearEl = document.getElementById("taxYear");
+
+  const solverBox = document.getElementById("solverBox");
+  const detailBox = document.getElementById("detailBox");
+  const monthBox = document.getElementById("monthBox");
+  const monthTable = document.getElementById("monthTable");
+  const payslipList = document.getElementById("payslipList");
+
+  let salariesPerYear = 12;
+  let inputMode = "gross"; // "gross" | "net"
+
+  function fillMonthSelect(sel, defIndex){
+    sel.innerHTML = "";
+    for (let i=0;i<12;i++){
+      const opt = document.createElement("option");
+      opt.value = String(i);
+      opt.textContent = monthName(i);
+      if (i === defIndex) opt.selected = true;
+      sel.appendChild(opt);
+    }
+  }
+
+  fillMonthSelect(m13El, 5);      // Jun
+  fillMonthSelect(m14El, 10);     // Nov
+  fillMonthSelect(bonusMonthEl, 11);// Dez
+
+  function setSalaries(n){
+    salariesPerYear = n;
+    const is12 = n === 12;
+    btn12.classList.toggle("active", is12);
+    btn14.classList.toggle("active", !is12);
+    btn12.setAttribute("aria-pressed", String(is12));
+    btn14.setAttribute("aria-pressed", String(!is12));
+    m13El.disabled = is12;
+    m14El.disabled = is12;
+    runIfPossible();
+  }
+
+  btn12.addEventListener("click", ()=>setSalaries(12));
+  btn14.addEventListener("click", ()=>setSalaries(14));
+
+  function setInputMode(mode){
+    inputMode = mode;
+    const isGross = mode === "gross";
+    btnInGross.classList.toggle("active", isGross);
+    btnInNet.classList.toggle("active", !isGross);
+    btnInGross.setAttribute("aria-pressed", String(isGross));
+    btnInNet.setAttribute("aria-pressed", String(!isGross));
+    grossRow.style.display = isGross ? "" : "none";
+    netRow.style.display = isGross ? "none" : "";
+    inputModeHint.textContent = isGross
+      ? "Brutto → Netto: Monatsbrutto eingeben. Ergebnis inkl. Monatsansicht & Lohnzettel."
+      : "Netto → Brutto: Ziel-Netto (Ø/Monat) eingeben. Solver schätzt das passende Brutto und zeigt danach alles an.";
+    solverBox.style.display = "none";
+    runIfPossible();
+  }
+
+  btnInGross.addEventListener("click", ()=>setInputMode("gross"));
+  btnInNet.addEventListener("click", ()=>setInputMode("net"));
+
+  function getOpts(){
+    return {
+      m13: Number(m13El.value),
+      m14: Number(m14El.value),
+      bonusGross: parseEuroNumber(bonusGrossEl.value) || 0,
+      bonusMonth: Number(bonusMonthEl.value),
+      bonusMode: bonusModeEl.value,
+      viennaWF: !!viennaWFEl.checked,
+      pendelKm: Number(pendelKmEl.value || 0),
+      pendelType: pendelTypeEl.value,
+      pendelDays: Number(pendelDaysEl.value || 0),
+      kidsU18: Number(kidsU18El.value || 0),
+      kidsA18: Number(kidsA18El.value || 0),
+      avabMode: avabModeEl.value,
+      unterhaltKids: Number(unterhaltKidsEl.value || 0)
+    };
+  }
+
+  function renderMonthTable(rows){
+    monthTable.innerHTML = "";
+    for (const r of rows){
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${monthName(r.i)}</td>
+        <td class="right">${euro(r.gross)}</td>
+        <td class="right">${euro(r.svTot)}</td>
+        <td class="right">${euro(r.taxTot)}</td>
+        <td class="right"><b>${euro(r.net)}</b></td>
+      `;
+      monthTable.appendChild(tr);
+    }
+  }
+
+  function renderPayslips(rows){
+    payslipList.innerHTML = "";
+    for (const r of rows){
+      const d = r.parts;
+      const el = document.createElement("details");
+      el.innerHTML = `
+        <summary>${monthName(r.i)} • Netto ${euro(r.net)} • Brutto ${euro(r.gross)}</summary>
+        <div class="inner">
+          <div class="muted" style="font-size:12px;margin-bottom:8px">Brutto-Aufteilung</div>
+          <table>
+            <tbody>
+              <tr><td>Laufend</td><td class="right">${euro(d.gross.normal)}</td></tr>
+              <tr><td>Bonus (laufend)</td><td class="right">${euro(d.gross.bonusLaufend)}</td></tr>
+              <tr><td>SZ (13./14./SZ-Bonus)</td><td class="right">${euro(d.gross.sz)}</td></tr>
+            </tbody>
+          </table>
+
+          <div class="muted" style="font-size:12px;margin:10px 0 8px">SV (DN) – Detail (Näherung)</div>
+          <table>
+            <tbody>
+              <tr><td>SV normal (PV/KV/AV/AK/WF)</td><td class="right">${euro(d.sv.svNormal.total)}</td></tr>
+              <tr><td>SV Bonus extra (laufend, cap)</td><td class="right">${euro(d.sv.svBonusExtra.total)}</td></tr>
+              <tr><td>SV SZ (PV/KV/AV; SZ-Cap verteilt)</td><td class="right">${euro(d.sv.svSZ.total)}</td></tr>
+              <tr><td><b>SV gesamt</b></td><td class="right"><b>${euro(d.sv.total.total)}</b></td></tr>
+            </tbody>
+          </table>
+
+          <div class="muted" style="font-size:12px;margin:10px 0 8px">Steuer – Detail (Näherung)</div>
+          <table>
+            <tbody>
+              <tr><td>Tarif</td><td class="right">${euro(d.tax.tarif)}</td></tr>
+              <tr><td>SZ</td><td class="right">${euro(d.tax.sz)}</td></tr>
+              <tr><td>Credits (Monatsanteil)</td><td class="right">− ${euro(d.tax.credits.total)}</td></tr>
+              <tr><td><b>Steuer gesamt</b></td><td class="right"><b>${euro(d.tax.after)}</b></td></tr>
+            </tbody>
+          </table>
+
+          <div class="muted" style="font-size:12px;margin-top:10px">
+            Pendlerpauschale (Monat): ${euro(r.pendler.ppMonthly)} • Netto: <b>${euro(r.net)}</b>
+          </div>
+        </div>
+      `;
+      payslipList.appendChild(el);
+    }
+  }
+
+  function updateUI(res, usedGross, solverInfo){
+    grossYearEl.textContent = euro(res.grossYear);
+    netYearEl.textContent = euro(res.netYear);
+    svYearEl.textContent = euro(res.svYear);
+    taxYearEl.textContent = euro(res.taxYear);
+
+    solverBox.style.display = "none";
+    detailBox.style.display = "none";
+    monthBox.style.display = "none";
+    detailBox.textContent = "";
+    detailBox.style.whiteSpace = "pre-line";
+
+    if (solverInfo){
+      solverBox.style.display = "block";
+      solverBox.textContent = solverInfo;
+    }
+
+    const mode = modeEl.value;
+
+    if (mode === "monthlyView"){
+      kpiLabel.textContent = "Netto (Ø/Monat)";
+      netMain.textContent = euro(res.netMonthlyAvg);
+      kpiHint.textContent = "Unten: Monatsübersicht + Mini-Lohnzettel je Monat.";
+      monthBox.style.display = "block";
+      renderMonthTable(res.rows);
+      renderPayslips(res.rows);
+    } else if (mode === "monthlyAvg"){
+      kpiLabel.textContent = "Netto pro Monat (Ø)";
+      netMain.textContent = euro(res.netMonthlyAvg);
+      kpiHint.textContent = "Ø über 12 Monate (inkl. 13./14./Bonus in Jahreslogik).";
+    } else if (mode === "yearly"){
+      kpiLabel.textContent = "Netto pro Jahr";
+      netMain.textContent = euro(res.netYear);
+      kpiHint.textContent = "Jahreswert (Brutto − SV − Steuer).";
+    } else if (mode === "details"){
+      kpiLabel.textContent = "Netto (Details)";
+      netMain.textContent = euro(res.netMonthlyAvg);
+      const d = res.debug;
+      kpiHint.textContent = "Debug / Plausibilität.";
+      detailBox.style.display = "block";
+      detailBox.textContent =
+        "Taxable Tarif/Jahr: " + euro(d.taxableYearTarif) + "\n" +
+        "Pendlerpauschale/Jahr: " + euro(d.ppAnnual) + "\n" +
+        "Pendlereuro/Jahr: " + euro(d.pendlereuroAnnual) + "\n" +
+        "VAB gesamt/Jahr: " + euro(d.vabTotal) + "\n" +
+        "Tarifsteuer roh/Jahr: " + euro(d.taxTariffAnnualRaw) + "\n" +
+        "Tarifsteuer nach VAB/Jahr: " + euro(d.taxTariffAnnual) + "\n" +
+        "SZ-Steuer/Jahr: " + euro(d.taxSZAnnual) + "\n" +
+        "Credits/Jahr (FB+PE+AVAB/AEAB+UH): " + euro(d.creditsAnnual) + "\n" +
+        "SZ brutto/Jahr: " + euro(d.totalSZGross) + " • SZ-SV Base cap: " + euro(d.baseSZYear);
+    }
+
+    // Also keep gross input updated when solver used
+    if (inputMode === "net" && Number.isFinite(usedGross)){
+      grossEl.value = String((Math.round(usedGross*100)/100)).replace(".", ",");
+    }
+  }
+
+  function calculateNow(){
+    const opts = getOpts();
+
+    let gross;
+    let solverInfo = null;
+
+    if (inputMode === "gross"){
+      gross = parseEuroNumber(grossEl.value);
+      if (!Number.isFinite(gross) || gross <= 0){
+        netMain.textContent = "—";
+        kpiLabel.textContent = "Netto";
+        kpiHint.textContent = "Bitte gültiges Brutto eingeben.";
+        grossYearEl.textContent = netYearEl.textContent = svYearEl.textContent = taxYearEl.textContent = "—";
+        solverBox.style.display = detailBox.style.display = monthBox.style.display = "none";
+        return;
+      }
+    } else {
+      const targetNet = parseEuroNumber(netTargetEl.value);
+      if (!Number.isFinite(targetNet) || targetNet <= 0){
+        netMain.textContent = "—";
+        kpiLabel.textContent = "Brutto Schätzung";
+        kpiHint.textContent = "Bitte gültiges Netto-Ziel (Ø/Monat) eingeben.";
+        grossYearEl.textContent = netYearEl.textContent = svYearEl.textContent = taxYearEl.textContent = "—";
+        solverBox.style.display = detailBox.style.display = monthBox.style.display = "none";
+        return;
+      }
+      const sol = solveGrossForTargetNet(targetNet, salariesPerYear, opts);
+      gross = sol.gross;
+      solverInfo = sol.ok
+        ? ("Netto-Ziel: " + euro(targetNet) + " • Geschätztes Brutto/Monat: " + euro(gross) + " • Erreicht: " + euro(sol.achieved))
+        : ("Netto-Ziel zu hoch für Solver-Range. Brutto wurde auf " + euro(sol.gross) + " gesetzt, erreicht: " + euro(sol.achieved));
+    }
+
+    const res = calculateFull(gross, salariesPerYear, opts);
+    updateUI(res, gross, solverInfo);
+  }
+
+  function runIfPossible(){
+    // only auto-run if something is entered in current mode
+    if (inputMode === "gross"){
+      const gross = parseEuroNumber(grossEl.value);
+      if (!Number.isFinite(gross) || gross <= 0) return;
+    } else {
+      const net = parseEuroNumber(netTargetEl.value);
+      if (!Number.isFinite(net) || net <= 0) return;
+    }
+    calculateNow();
+  }
+
+  calcBtn.addEventListener("click", calculateNow);
+
+  resetBtn.addEventListener("click", ()=>{
+    grossEl.value = "";
+    netTargetEl.value = "";
+    bonusGrossEl.value = "";
+    bonusModeEl.value = "sz";
+    fillMonthSelect(m13El, 5);
+    fillMonthSelect(m14El, 10);
+    fillMonthSelect(bonusMonthEl, 11);
+    pendelKmEl.value = 0;
+    pendelTypeEl.value = "none";
+    pendelDaysEl.value = 3;
+    viennaWFEl.checked = false;
+    kidsU18El.value = 0;
+    kidsA18El.value = 0;
+    avabModeEl.value = "none";
+    unterhaltKidsEl.value = 0;
+    modeEl.value = "monthlyView";
+    setSalaries(12);
+    setInputMode("gross");
+
+    netMain.textContent = "—";
+    kpiLabel.textContent = "Netto";
+    kpiHint.textContent = "Eingeben → „Berechnen“.";
+    grossYearEl.textContent = netYearEl.textContent = svYearEl.textContent = taxYearEl.textContent = "—";
+    solverBox.style.display = detailBox.style.display = monthBox.style.display = "none";
+  });
+
+  // month select init
+  function fillMonthSelect(sel, defIndex){
+    sel.innerHTML = "";
+    for (let i=0;i<12;i++){
+      const opt = document.createElement("option");
+      opt.value = String(i);
+      opt.textContent = monthName(i);
+      if (i === defIndex) opt.selected = true;
+      sel.appendChild(opt);
+    }
+  }
+  fillMonthSelect(m13El, 5);
+  fillMonthSelect(m14El, 10);
+  fillMonthSelect(bonusMonthEl, 11);
+
+  // Live updates
+  [
+    grossEl, netTargetEl,
+    modeEl, m13El, m14El,
+    bonusGrossEl, bonusMonthEl, bonusModeEl,
+    viennaWFEl,
+    pendelKmEl, pendelTypeEl, pendelDaysEl,
+    kidsU18El, kidsA18El, avabModeEl, unterhaltKidsEl
+  ].forEach(el=>{
+    const ev = (el.tagName === "SELECT" || el.type === "checkbox") ? "change" : "input";
+    el.addEventListener(ev, runIfPossible);
+  });
+
+  // initial
+  setSalaries(12);
+  setInputMode("gross");
+</script>
+</body>
+</html>
