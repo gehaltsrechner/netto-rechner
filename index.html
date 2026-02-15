@@ -1,4 +1,39 @@
-  border-radius:999px;background:rgba(255,255,255,.04);color:var(--muted);font-size:12px;user-select:none}
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Netto/Brutto Rechner Österreich (2026) – Vollprogramm 2.1</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.14);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --accent:#7c5cff;
+      --shadow:0 18px 50px rgba(0,0,0,.45);
+      --radius:18px;
+      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      --sans:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.20), transparent 60%),
+        radial-gradient(900px 450px at 90% 20%, rgba(34,197,94,0.10), transparent 55%),
+        radial-gradient(700px 400px at 50% 95%, rgba(251,191,36,0.08), transparent 55%),
+        var(--bg);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:24px 16px 44px}
+    header{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin:10px 0 18px}
+    h1{margin:0;font-size:clamp(20px,2.4vw,30px);line-height:1.1;letter-spacing:-.02em}
+    .sub{color:var(--muted);font-size:14px;line-height:1.35;max-width:95ch}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--line);
+      border-radius:999px;background:rgba(255,255,255,.04);color:var(--muted);font-size:12px;user-select:none}
     .dot{width:9px;height:9px;border-radius:99px;background:var(--accent);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
     .grid{display:grid;grid-template-columns:1.45fr .55fr;gap:14px}
     @media (max-width:1020px){.grid{grid-template-columns:1fr}}
@@ -57,287 +92,265 @@
     details .inner{padding:14px;border-top:1px solid rgba(255,255,255,.12)}
     footer{margin-top:16px;color:rgba(255,255,255,.55);font-size:12px;line-height:1.45;text-align:center}
     .muted{color:var(--muted)}
-    .cta{
-      margin-top:18px;
-      padding:16px;
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:16px;
-      background:rgba(255,255,255,.02);
-    }
-    .cta a{
-      display:inline-block;margin-top:12px;padding:15px 25px;background:#4f7cff;color:white;
-      text-decoration:none;border-radius:10px;font-size:18px;
-    }
   </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <header>
-      <div>
-        <h1>Netto/Brutto Rechner Österreich</h1>
-        <div class="sub">
-          Vollprogramm 2.1 (AT 2026): Brutto→Netto oder Netto→Brutto, 12/14, Bonus (SZ oder laufend), Pendler, Absetzbeträge,
-          Monatsansicht + Mini-Lohnzettel.
-        </div>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Netto/Brutto Rechner Österreich</h1>
+      <div class="sub">
+        Vollprogramm 2.1 (AT 2026): Brutto→Netto oder Netto→Brutto, 12/14, Bonus (SZ oder laufend), Pendler, Absetzbeträge,
+        Monatsansicht + Mini-Lohnzettel.
       </div>
-      <div class="pill"><span class="dot"></span><span>1 Datei • ohne Libraries • mobil</span></div>
-    </header>
+    </div>
+    <div class="pill"><span class="dot"></span><span>1 Datei • ohne Libraries • mobil</span></div>
+  </header>
 
-    <div class="grid">
-      <section class="card">
-        <div class="hd"><h2>Eingaben</h2></div>
-        <div class="bd">
+  <div class="grid">
+    <section class="card">
+      <div class="hd"><h2>Eingaben</h2></div>
+      <div class="bd">
 
-          <div class="row">
-            <label>Eingabe-Modus</label>
-            <div class="seg" role="group" aria-label="Brutto oder Netto eingeben">
-              <button id="btnInGross" class="active" type="button" aria-pressed="true">Brutto eingeben</button>
-              <button id="btnInNet" type="button" aria-pressed="false">Netto eingeben</button>
-            </div>
-            <div class="note" id="inputModeHint">
-              Brutto → Netto: Monatsbrutto eingeben. Netto → Brutto: Ziel-Netto (Ø/Monat) eingeben, Rechner schätzt das passende Brutto.
-            </div>
+        <div class="row">
+          <label>Eingabe-Modus</label>
+          <div class="seg" role="group" aria-label="Brutto oder Netto eingeben">
+            <button id="btnInGross" class="active" type="button" aria-pressed="true">Brutto eingeben</button>
+            <button id="btnInNet" type="button" aria-pressed="false">Netto eingeben</button>
+          </div>
+          <div class="note" id="inputModeHint">
+            Brutto → Netto: Monatsbrutto eingeben. Netto → Brutto: Ziel-Netto (Ø/Monat) eingeben, Rechner schätzt das passende Brutto.
+          </div>
+        </div>
+
+        <div class="twoCols">
+          <div class="row" style="margin-bottom:0" id="grossRow">
+            <label for="gross">Bruttogehalt (monatlich)</label>
+            <input id="gross" type="text" inputmode="decimal" placeholder="z.B. 3.200,00" autocomplete="off" />
+          </div>
+          <div class="row" style="margin-bottom:0; display:none" id="netRow">
+            <label for="netTarget">Netto Ziel (Ø pro Monat)</label>
+            <input id="netTarget" type="text" inputmode="decimal" placeholder="z.B. 2.400,00" autocomplete="off" />
           </div>
 
-          <div class="twoCols">
-            <div class="row" style="margin-bottom:0" id="grossRow">
-              <label for="gross">Bruttogehalt (monatlich)</label>
-              <input id="gross" type="text" inputmode="decimal" placeholder="z.B. 3.200,00" autocomplete="off" />
+          <div class="row" style="margin-bottom:0">
+            <label>Gehälter pro Jahr</label>
+            <div class="seg" role="group" aria-label="12 oder 14 Gehälter">
+              <button id="btn12" class="active" type="button" aria-pressed="true">12</button>
+              <button id="btn14" type="button" aria-pressed="false">14</button>
             </div>
-            <div class="row" style="margin-bottom:0; display:none" id="netRow">
-              <label for="netTarget">Netto Ziel (Ø pro Monat)</label>
-              <input id="netTarget" type="text" inputmode="decimal" placeholder="z.B. 2.400,00" autocomplete="off" />
-            </div>
+          </div>
+        </div>
 
-            <div class="row" style="margin-bottom:0">
-              <label>Gehälter pro Jahr</label>
-              <div class="seg" role="group" aria-label="12 oder 14 Gehälter">
-                <button id="btn12" class="active" type="button" aria-pressed="true">12</button>
-                <button id="btn14" type="button" aria-pressed="false">14</button>
-              </div>
+        <div class="twoCols" style="margin-top:10px">
+          <div class="row" style="margin-bottom:0">
+            <label for="m13">Monat 13. Gehalt</label>
+            <select id="m13"></select>
+          </div>
+          <div class="row" style="margin-bottom:0">
+            <label for="m14">Monat 14. Gehalt</label>
+            <select id="m14"></select>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <label>Bonus / Prämie (optional)</label>
+          <div class="twoCols">
+            <div>
+              <label for="bonusGross">Bonus brutto (einmalig/Jahr)</label>
+              <input id="bonusGross" type="text" inputmode="decimal" placeholder="z.B. 5.000,00" autocomplete="off" />
+            </div>
+            <div>
+              <label for="bonusMonth">Auszahlungsmonat</label>
+              <select id="bonusMonth"></select>
+            </div>
+          </div>
+          <div class="twoCols" style="margin-top:10px">
+            <div>
+              <label for="bonusMode">Besteuerung</label>
+              <select id="bonusMode">
+                <option value="sz">Als sonstiger Bezug (§67 / Jahressechstel)</option>
+                <option value="laufend">Als laufender Bezug (Tarif)</option>
+              </select>
+            </div>
+            <div class="checkbox" style="align-items:center;margin-top:22px">
+              <input id="viennaWF" type="checkbox" />
+              <div><b>Wien: Wohnbauförderungsbeitrag DN 0,75%</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <label>Pendler (optional)</label>
+          <div class="twoCols">
+            <div>
+              <label for="pendelKm">Einfache Wegstrecke (km)</label>
+              <input id="pendelKm" type="number" min="0" step="0.1" value="0" />
+            </div>
+            <div>
+              <label for="pendelType">Öffis zumutbar?</label>
+              <select id="pendelType">
+                <option value="none">Kein Pendlerpauschale</option>
+                <option value="klein">Ja → kleines Pendlerpauschale</option>
+                <option value="gross">Nein → großes Pendlerpauschale</option>
+              </select>
+            </div>
+          </div>
+          <div class="twoCols" style="margin-top:10px">
+            <div>
+              <label for="pendelDays">Fahrten pro Monat</label>
+              <select id="pendelDays">
+                <option value="0">0–3 Tage/Monat (kein Anspruch)</option>
+                <option value="1">4–7 Tage/Monat (1/3)</option>
+                <option value="2">8–10 Tage/Monat (2/3)</option>
+                <option value="3" selected>≥ 11 Tage/Monat (voll)</option>
+              </select>
+            </div>
+            <div class="note" style="margin:0">
+              Pendlereuro: <span class="mono">6 € × km/Jahr</span>, aliquot wie Pendlerpauschale.
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <label>Familie & Absetzbeträge (optional)</label>
+          <div class="twoCols">
+            <div>
+              <label for="kidsU18">Kinder &lt; 18 (Familienbonus)</label>
+              <input id="kidsU18" type="number" min="0" step="1" value="0" />
+            </div>
+            <div>
+              <label for="kidsA18">Kinder ≥ 18 (Familienbonus)</label>
+              <input id="kidsA18" type="number" min="0" step="1" value="0" />
             </div>
           </div>
 
           <div class="twoCols" style="margin-top:10px">
-            <div class="row" style="margin-bottom:0">
-              <label for="m13">Monat 13. Gehalt</label>
-              <select id="m13"></select>
+            <div>
+              <label for="avabMode">AVAB / AEAB</label>
+              <select id="avabMode">
+                <option value="none">Keiner</option>
+                <option value="avab">Alleinverdienerabsetzbetrag (AVAB)</option>
+                <option value="aeab">Alleinerzieherabsetzbetrag (AEAB)</option>
+              </select>
             </div>
-            <div class="row" style="margin-bottom:0">
-              <label for="m14">Monat 14. Gehalt</label>
-              <select id="m14"></select>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="row">
-            <label>Bonus / Prämie (optional)</label>
-            <div class="twoCols">
-              <div>
-                <label for="bonusGross">Bonus brutto (einmalig/Jahr)</label>
-                <input id="bonusGross" type="text" inputmode="decimal" placeholder="z.B. 5.000,00" autocomplete="off" />
-              </div>
-              <div>
-                <label for="bonusMonth">Auszahlungsmonat</label>
-                <select id="bonusMonth"></select>
-              </div>
-            </div>
-            <div class="twoCols" style="margin-top:10px">
-              <div>
-                <label for="bonusMode">Besteuerung</label>
-                <select id="bonusMode">
-                  <option value="sz">Als sonstiger Bezug (§67 / Jahressechstel)</option>
-                  <option value="laufend">Als laufender Bezug (Tarif)</option>
-                </select>
-              </div>
-              <div class="checkbox" style="align-items:center;margin-top:22px">
-                <input id="viennaWF" type="checkbox" />
-                <div><b>Wien: Wohnbauförderungsbeitrag DN 0,75%</b></div>
-              </div>
+            <div>
+              <label for="unterhaltKids">Unterhaltsabsetzbetrag: alimentierte Kinder</label>
+              <input id="unterhaltKids" type="number" min="0" step="1" value="0" />
             </div>
           </div>
-
-          <div class="divider"></div>
-
-          <div class="row">
-            <label>Pendler (optional)</label>
-            <div class="twoCols">
-              <div>
-                <label for="pendelKm">Einfache Wegstrecke (km)</label>
-                <input id="pendelKm" type="number" min="0" step="0.1" value="0" />
-              </div>
-              <div>
-                <label for="pendelType">Öffis zumutbar?</label>
-                <select id="pendelType">
-                  <option value="none">Kein Pendlerpauschale</option>
-                  <option value="klein">Ja → kleines Pendlerpauschale</option>
-                  <option value="gross">Nein → großes Pendlerpauschale</option>
-                </select>
-              </div>
-            </div>
-            <div class="twoCols" style="margin-top:10px">
-              <div>
-                <label for="pendelDays">Fahrten pro Monat</label>
-                <select id="pendelDays">
-                  <option value="0">0–3 Tage/Monat (kein Anspruch)</option>
-                  <option value="1">4–7 Tage/Monat (1/3)</option>
-                  <option value="2">8–10 Tage/Monat (2/3)</option>
-                  <option value="3" selected>≥ 11 Tage/Monat (voll)</option>
-                </select>
-              </div>
-              <div class="note" style="margin:0">
-                Pendlereuro: <span class="mono">6 € × km/Jahr</span>, aliquot wie Pendlerpauschale.
-              </div>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="row">
-            <label>Familie & Absetzbeträge (optional)</label>
-            <div class="twoCols">
-              <div>
-                <label for="kidsU18">Kinder &lt; 18 (Familienbonus)</label>
-                <input id="kidsU18" type="number" min="0" step="1" value="0" />
-              </div>
-              <div>
-                <label for="kidsA18">Kinder ≥ 18 (Familienbonus)</label>
-                <input id="kidsA18" type="number" min="0" step="1" value="0" />
-              </div>
-            </div>
-
-            <div class="twoCols" style="margin-top:10px">
-              <div>
-                <label for="avabMode">AVAB / AEAB</label>
-                <select id="avabMode">
-                  <option value="none">Keiner</option>
-                  <option value="avab">Alleinverdienerabsetzbetrag (AVAB)</option>
-                  <option value="aeab">Alleinerzieherabsetzbetrag (AEAB)</option>
-                </select>
-              </div>
-              <div>
-                <label for="unterhaltKids">Unterhaltsabsetzbetrag: alimentierte Kinder</label>
-                <input id="unterhaltKids" type="number" min="0" step="1" value="0" />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <label for="mode">Ausgabe</label>
-            <select id="mode">
-              <option value="monthlyView">Monatsansicht (Netto je Monat + Lohnzettel)</option>
-              <option value="monthlyAvg">Netto pro Monat (Ø über 12 Monate)</option>
-              <option value="yearly">Netto pro Jahr</option>
-              <option value="details">Details (Debug)</option>
-            </select>
-          </div>
-
-          <div class="actions">
-            <button class="btn primary" id="calc" type="button">Berechnen</button>
-            <button class="btn" id="reset" type="button">Zurücksetzen</button>
-          </div>
-
-          <details style="margin-top:12px">
-            <summary>Hinweise</summary>
-            <div class="inner muted" style="font-size:12px;line-height:1.45">
-              <ul style="margin:0;padding-left:18px">
-                <li>Netto→Brutto nutzt Solver (sehr gute Schätzung).</li>
-                <li>Monatsansicht verteilt Credits gleichmäßig auf Monate (UX-Näherung; Lohnverrechnung kann abweichen).</li>
-                <li>SZ-SV wird proportional mit SZ-Cap verteilt (Näherung).</li>
-              </ul>
-            </div>
-          </details>
-
         </div>
-      </section>
 
-      <section class="card" aria-live="polite">
-        <div class="hd"><h2>Ergebnis</h2></div>
-        <div class="bd">
-          <p style="font-size:12px;opacity:0.7;margin-top:0">
-            Alle Angaben ohne Gewähr. Die Berechnung stellt eine vereinfachte Schätzung dar und ersetzt keine steuerliche Beratung.
+        <div class="row">
+          <label for="mode">Ausgabe</label>
+          <select id="mode">
+            <option value="monthlyView">Monatsansicht (Netto je Monat + Lohnzettel)</option>
+            <option value="monthlyAvg">Netto pro Monat (Ø über 12 Monate)</option>
+            <option value="yearly">Netto pro Jahr</option>
+            <option value="details">Details (Debug)</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="calc" type="button">Berechnen</button>
+          <button class="btn" id="reset" type="button">Zurücksetzen</button>
+        </div>
+
+        <details style="margin-top:12px">
+          <summary>Hinweise</summary>
+          <div class="inner muted" style="font-size:12px;line-height:1.45">
+            <ul style="margin:0;padding-left:18px">
+              <li>Netto→Brutto nutzt Solver (sehr gute Schätzung).</li>
+              <li>Monatsansicht verteilt Credits gleichmäßig auf Monate (UX-Näherung; Lohnverrechnung kann abweichen).</li>
+              <li>SZ-SV wird proportional mit SZ-Cap verteilt (Näherung).</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <section class="card" aria-live="polite">
+      <div class="hd"><h2>Ergebnis</h2></div>
+      <div class="bd">
+        <div class="note" style="margin-top:0">
+          Alle Angaben ohne Gewähr. Die Berechnung stellt eine vereinfachte Schätzung dar und ersetzt keine steuerliche Beratung.
+        </div>
+
+        <div class="kpi" style="margin-top:12px">
+          <div class="label" id="kpiLabel">Netto</div>
+          <div class="value" id="netMain">—</div>
+          <div class="hint" id="kpiHint">Eingeben → „Berechnen“.</div>
+        </div>
+
+        <!-- CTA direkt unter dem Ergebnis -->
+        <div style="margin-top:14px;padding:14px;border-radius:16px;border:1px solid rgba(79,124,255,.25);background:rgba(79,124,255,.08);text-align:center">
+          <b>Kostenlose Lohnzettel-Prüfung</b>
+          <p style="margin:8px 0 0 0;font-size:13px;opacity:.85;line-height:1.45">
+            Viele Arbeitnehmer in Österreich verschenken jedes Jahr Geld. Ich prüfe kostenlos, ob du beim Steuerausgleich oder bei Absetzbeträgen Geld zurückbekommen kannst.
           </p>
-
-          <div class="kpi">
-            <div class="label" id="kpiLabel">Netto</div>
-            <div class="value" id="netMain">—</div>
-            <div class="hint" id="kpiHint">Eingeben → „Berechnen“.</div>
-          </div>
-
-          <div class="miniGrid">
-            <div class="mini"><div class="t">Brutto/Jahr</div><div class="n" id="grossYear">—</div></div>
-            <div class="mini"><div class="t">Netto/Jahr</div><div class="n" id="netYear">—</div></div>
-            <div class="mini"><div class="t">SV DN/Jahr</div><div class="n" id="svYear">—</div></div>
-            <div class="mini"><div class="t">Steuer/Jahr</div><div class="n" id="taxYear">—</div></div>
-          </div>
-
-          <div class="note" id="solverBox" style="display:none"></div>
-          <div class="note" id="detailBox" style="display:none"></div>
-
-          <div class="note" id="monthBox" style="display:none">
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
-              <span class="tag">Monatsübersicht</span>
-              <span class="muted" style="font-size:12px">Netto je Monat inkl. 13./14./Bonus</span>
-            </div>
-            <div style="overflow:auto">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Monat</th>
-                    <th class="right">Brutto</th>
-                    <th class="right">SV</th>
-                    <th class="right">Steuer</th>
-                    <th class="right">Netto</th>
-                  </tr>
-                </thead>
-                <tbody id="monthTable"></tbody>
-              </table>
-            </div>
-
-            <div class="divider"></div>
-
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:4px 0 10px">
-              <span class="tag">Mini-Lohnzettel</span>
-              <span class="muted" style="font-size:12px">Aufklappen für Aufschlüsselung</span>
-            </div>
-            <div id="payslipList" style="display:grid;gap:10px"></div>
-          </div>
+          <a href="https://forms.gle/tUNiCr1PY2BiyZqJ8"
+             target="_blank" rel="noopener"
+             style="display:inline-block;margin-top:10px;padding:12px 18px;background:#4f7cff;color:white;text-decoration:none;border-radius:12px;font-size:15px;">
+             Kostenlos prüfen lassen
+          </a>
+          <div style="margin-top:8px;font-size:12px;opacity:.7">unverbindlich • dauert 1 Minute</div>
         </div>
-      </section>
-    </div>
 
-    <footer>
-      Tipp: Wenn bei dir gar nichts passiert, öffne die Browser-Konsole (F12) und schau nach Fehlermeldungen.
-    </footer>
+        <div class="miniGrid" style="margin-top:12px">
+          <div class="mini"><div class="t">Brutto/Jahr</div><div class="n" id="grossYear">—</div></div>
+          <div class="mini"><div class="t">Netto/Jahr</div><div class="n" id="netYear">—</div></div>
+          <div class="mini"><div class="t">SV DN/Jahr</div><div class="n" id="svYear">—</div></div>
+          <div class="mini"><div class="t">Steuer/Jahr</div><div class="n" id="taxYear">—</div></div>
+        </div>
 
-    <hr>
+        <div class="note" id="solverBox" style="display:none"></div>
+        <div class="note" id="detailBox" style="display:none"></div>
 
-    <p style="text-align:center;font-size:14px;">
-      <a href="impressum.html">Impressum</a> |
-      <a href="datenschutz.html">Datenschutz</a>
-    </p>
+        <div class="note" id="monthBox" style="display:none">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
+            <span class="tag">Monatsübersicht</span>
+            <span class="muted" style="font-size:12px">Netto je Monat inkl. 13./14./Bonus</span>
+          </div>
+          <div style="overflow:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Monat</th>
+                  <th class="right">Brutto</th>
+                  <th class="right">SV</th>
+                  <th class="right">Steuer</th>
+                  <th class="right">Netto</th>
+                </tr>
+              </thead>
+              <tbody id="monthTable"></tbody>
+            </table>
+          </div>
 
-    <hr>
+          <div class="divider"></div>
 
-    <div class="cta">
-      <p style="margin:0 0 8px 0">
-        Viele Arbeitnehmer in Österreich verschenken jedes Jahr Geld.
-        Ich prüfe kostenlos, ob du beim Steuerausgleich oder bei Absetzbeträgen
-        Geld zurückbekommen kannst.
-      </p>
-
-      <a href="https://forms.gle/tUNiCr1PY2BiyZqJ8" target="_blank" rel="noopener noreferrer">
-        Kostenlose Prüfung starten
-      </a>
-
-      <p style="font-size:12px;margin-top:10px;opacity:0.7">
-        unverbindlich • dauert 1 Minute
-      </p>
-    </div>
-
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:4px 0 10px">
+            <span class="tag">Mini-Lohnzettel</span>
+            <span class="muted" style="font-size:12px">Aufklappen für Aufschlüsselung</span>
+          </div>
+          <div id="payslipList" style="display:grid;gap:10px"></div>
+        </div>
+      </div>
+    </section>
   </div>
+
+  <footer>
+    Tipp: Wenn bei dir gar nichts passiert, öffne die Browser-Konsole (F12) und schau nach Fehlermeldungen.<br><br>
+    <a href="impressum.html" style="color:inherit">Impressum</a> |
+    <a href="datenschutz.html" style="color:inherit">Datenschutz</a>
+  </footer>
+</div>
 
 <script>
   // =========================
@@ -452,17 +465,6 @@
     return m[i] || ("M"+(i+1));
   }
 
-  function fillMonthSelect(sel, defIndex){
-    sel.innerHTML = "";
-    for (let i=0;i<12;i++){
-      const opt = document.createElement("option");
-      opt.value = String(i);
-      opt.textContent = monthName(i);
-      if (i === defIndex) opt.selected = true;
-      sel.appendChild(opt);
-    }
-  }
-
   function tariffTaxAnnual(taxable){
     taxable = clamp0(taxable);
     let tax = 0;
@@ -572,6 +574,17 @@
     return monthly * 12;
   }
 
+  function fixedMonthSelect(sel, defIndex){
+    sel.innerHTML = "";
+    for (let i=0;i<12;i++){
+      const opt = document.createElement("option");
+      opt.value = String(i);
+      opt.textContent = monthName(i);
+      if (i === defIndex) opt.selected = true;
+      sel.appendChild(opt);
+    }
+  }
+
   // =========================
   // Core calc
   // =========================
@@ -585,7 +598,6 @@
     const bonusMonth = Number(opts.bonusMonth ?? 11);
     const bonusMode = (opts.bonusMode === "laufend") ? "laufend" : "sz";
 
-    // Monthly gross buckets
     const months = Array.from({length:12}, (_,i)=>({
       i,
       grossNormal: grossMonthly,
@@ -602,7 +614,6 @@
       else months[bonusMonth].grossBonusLaufend += bonusGross;
     }
 
-    // Pendler
     const km = clamp0(Number(opts.pendelKm || 0));
     const pendelType = opts.pendelType || "none";
     const daysCode = Number(opts.pendelDays || 0);
@@ -616,13 +627,11 @@
       ? (km * PENDEL_EURO_PER_KM * aliquot)
       : 0;
 
-    // SV baseline (normal)
     const wfRate = opts.viennaWF ? RATE_WF_VIENNA_DN : 0;
     const baseNormalMonth = Math.min(grossMonthly, HBG_MONTH);
     const svNormalBase = svOnMonthlyBase(baseNormalMonth, grossMonthly, true, opts.viennaWF, wfRate);
     const avRate = svNormalBase.avRate;
 
-    // SZ SV cap distribution (proportional)
     const totalSZGross = months.reduce((s,m)=>s + m.grossSZ, 0);
     const baseSZYear = Math.min(totalSZGross, HBG_SZ_YEAR);
     const szBaseAlloc = months.map(m=>{
@@ -630,12 +639,9 @@
       return baseSZYear * (m.grossSZ / totalSZGross);
     });
 
-    // SV month detail
     const sv = months.map((m,idx)=>{
-      // Normal SV in this month (baseline)
       const svNormal = svNormalBase;
 
-      // Extra SV if laufender Bonus (cap monthly)
       const grossWithBonus = grossMonthly + m.grossBonusLaufend;
       const baseWithBonus = Math.min(grossWithBonus, HBG_MONTH);
       const svNormalWithBonus = svOnMonthlyBase(baseWithBonus, grossWithBonus, true, opts.viennaWF, wfRate);
@@ -649,7 +655,6 @@
         avRate
       };
 
-      // SZ SV on allocated base (PV/KV/AV only)
       const szBase = szBaseAlloc[idx];
       const svSZ = (szBase > 0)
         ? { pv:szBase*RATE_PV_DN, kv:szBase*RATE_KV_DN, av:szBase*avRate, ak:0, wf:0, total:szBase*(RATE_PV_DN+RATE_KV_DN+avRate), avRate }
@@ -668,7 +673,6 @@
       return { svNormal, svBonusExtra, svSZ, total };
     });
 
-    // Taxable months for tariff
     const taxableMonths = months.map((m,i)=>{
       const grossTarif = m.grossNormal + m.grossBonusLaufend;
       const svTarif = sv[i].svNormal.total + sv[i].svBonusExtra.total;
@@ -676,12 +680,10 @@
     });
     const taxableYearTarif = taxableMonths.reduce((s,x)=>s+x,0);
 
-    // Tariff tax annual + VAB credits
     const taxTariffAnnualRaw = tariffTaxAnnual(taxableYearTarif);
     const vabTotal = creditVAB2026(taxableYearTarif);
     const taxTariffAnnual = clamp0(taxTariffAnnualRaw - vabTotal);
 
-    // SZ tax annual
     const szSvYear = sv.reduce((s,x)=>s + x.svSZ.total, 0);
     const szTaxBase = clamp0(totalSZGross - szSvYear);
 
@@ -702,7 +704,6 @@
       }
     }
 
-    // Credits annual
     const kidsU18 = clamp0(opts.kidsU18 || 0);
     const kidsA18 = clamp0(opts.kidsA18 || 0);
     const kidsTotal = kidsU18 + kidsA18;
@@ -716,7 +717,6 @@
     const taxBeforeCredits = taxTariffAnnual + taxSZAnnual;
     const taxAnnual = clamp0(taxBeforeCredits - creditsAnnual);
 
-    // Allocate tariff tax monthly via cumulative method
     let tariffMonthly = Array(12).fill(0);
     {
       let cum = 0;
@@ -731,7 +731,6 @@
       tariffMonthly = tariffMonthly.map(x => Math.max(0, x - vabMonthly));
     }
 
-    // Allocate SZ tax monthly by SZ base portion
     const szBaseMonths = months.map((m,i)=> m.grossSZ>0 ? clamp0(m.grossSZ - sv[i].svSZ.total) : 0);
     const szBaseSum = szBaseMonths.reduce((s,x)=>s+x,0);
     let szMonthly = Array(12).fill(0);
@@ -739,7 +738,6 @@
       szMonthly = szBaseMonths.map(x => taxSZAnnual * (x/szBaseSum));
     }
 
-    // Spread credits monthly (UX)
     const creditsMonthlyTotal = creditsAnnual/12;
 
     const rows = months.map((m,i)=>{
@@ -764,7 +762,6 @@
       };
     });
 
-    // Reconcile tax rounding drift
     const sumTax = rows.reduce((s,r)=>s+r.taxTot,0);
     const diff = sumTax - taxAnnual;
     if (Math.abs(diff) > 0.02){
@@ -866,9 +863,10 @@
   let salariesPerYear = 12;
   let inputMode = "gross"; // "gross" | "net"
 
-  fillMonthSelect(m13El, 5);
-  fillMonthSelect(m14El, 10);
-  fillMonthSelect(bonusMonthEl, 11);
+  // init month selects
+  fixedMonthSelect(m13El, 5);      // Jun
+  fixedMonthSelect(m14El, 10);     // Nov
+  fixedMonthSelect(bonusMonthEl, 11);// Dez
 
   function setSalaries(n){
     salariesPerYear = n;
@@ -969,7 +967,7 @@
             <tbody>
               <tr><td>Tarif</td><td class="right">${euro(d.tax.tarif)}</td></tr>
               <tr><td>SZ</td><td class="right">${euro(d.tax.sz)}</td></tr>
-              <tr><td>Credits (Monatsanteil)</td><td class="right">− ${euro(d.tax.credits.total)}</td></tr>
+              <tr><td>Credits (Monat)</td><td class="right">− ${euro(d.tax.credits.total)}</td></tr>
               <tr><td><b>Steuer gesamt</b></td><td class="right"><b>${euro(d.tax.after)}</b></td></tr>
             </tbody>
           </table>
@@ -1031,7 +1029,7 @@
         "Tarifsteuer roh/Jahr: " + euro(d.taxTariffAnnualRaw) + "\n" +
         "Tarifsteuer nach VAB/Jahr: " + euro(d.taxTariffAnnual) + "\n" +
         "SZ-Steuer/Jahr: " + euro(d.taxSZAnnual) + "\n" +
-        "Credits/Jahr (FB+PE+AVAB/AEAB+UH): " + euro(d.creditsAnnual) + "\n" +
+        "Credits/Jahr: " + euro(d.creditsAnnual) + "\n" +
         "SZ brutto/Jahr: " + euro(d.totalSZGross) + " • SZ-SV Base cap: " + euro(d.baseSZYear);
     }
 
@@ -1095,17 +1093,21 @@
     netTargetEl.value = "";
     bonusGrossEl.value = "";
     bonusModeEl.value = "sz";
-    fillMonthSelect(m13El, 5);
-    fillMonthSelect(m14El, 10);
-    fillMonthSelect(bonusMonthEl, 11);
+
+    fixedMonthSelect(m13El, 5);
+    fixedMonthSelect(m14El, 10);
+    fixedMonthSelect(bonusMonthEl, 11);
+
     pendelKmEl.value = 0;
     pendelTypeEl.value = "none";
     pendelDaysEl.value = 3;
     viennaWFEl.checked = false;
+
     kidsU18El.value = 0;
     kidsA18El.value = 0;
     avabModeEl.value = "none";
     unterhaltKidsEl.value = 0;
+
     modeEl.value = "monthlyView";
     setSalaries(12);
     setInputMode("gross");
@@ -1132,5 +1134,5 @@
   setSalaries(12);
   setInputMode("gross");
 </script>
-
 </body>
+</html>
